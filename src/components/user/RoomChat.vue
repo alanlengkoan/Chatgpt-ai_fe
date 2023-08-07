@@ -107,14 +107,24 @@ export default {
                     return;
                 }
 
-                const data = {
-                    id: this.id,
+                const tableMessage = collection(db, "Friends/" + data.id + "/Messages");
+
+                const addData = {
                     uid: this.uid,
                     message: this.$refs.message.value,
+                    created_at: serverTimestamp(),
                 }
 
-                http.post('/send/chat', data).then((response) => {
-                    console.log(response.data);
+                updateDoc(doc(db, "Friends", data.id), {
+                    seen: false,
+                    latest_message: this.$refs.message.value,
+                    latest_message_time: serverTimestamp()
+                });
+
+                addDoc(tableMessage, addData).then((docRef) => {
+                    console.log('Create data messages berhasil ' + docRef.id);
+                }).catch((error) => {
+                    console.log(error);
                 });
 
                 this.$refs.bottom?.scrollIntoView({ behavior: 'smooth' });

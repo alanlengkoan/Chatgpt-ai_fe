@@ -9,7 +9,6 @@ import ChatCreateView from '../views/user/ChatCreate.vue'
 import GroupView from '../views/user/Group.vue'
 import GroupCreateView from '../views/user/GroupCreate.vue'
 import GroupMemberView from '../views/user/GroupMember.vue'
-import BotView from '../views/user/Bot.vue'
 import ProfilView from '../views/user/Profil.vue'
 import HomeUserView from '../views/user/Home.vue'
 import BaseUserLayout from '../layouts/BaseUser.vue'
@@ -20,7 +19,6 @@ import DashboardAdminView from '../views/admin/Dashboard.vue'
 import UserAdminView from '../views/admin/User.vue'
 import ChatAdminView from '../views/admin/Chat.vue'
 import GroupAdminView from '../views/admin/Group.vue'
-import BotAdminView from '../views/admin/Bot.vue'
 import BaseAdminLayout from '../layouts/BaseAdmin.vue'
 // end:: admin
 
@@ -94,12 +92,6 @@ const router = createRouter({
                     component: GroupMemberView,
                     props: true,
                 },
-                {
-                    path: 'bot/:id',
-                    name: 'user-bot',
-                    component: BotView,
-                    props: true,
-                },
             ]
         },
         // end:: user
@@ -133,11 +125,6 @@ const router = createRouter({
                     name: 'admin-group',
                     component: GroupAdminView,
                 },
-                {
-                    path: 'bot',
-                    name: 'admin-bot',
-                    component: BotAdminView,
-                },
             ]
         },
         // end:: admin
@@ -164,7 +151,6 @@ router.beforeEach((to, from, next) => {
                 'user-group',
                 'user-group-create',
                 'user-group-member',
-                'user-bot',
             ];
 
             if (routeAdmin.includes(to.name)) {
@@ -181,7 +167,6 @@ router.beforeEach((to, from, next) => {
                 'admin-user',
                 'admin-chat',
                 'admin-group',
-                'admin-bot',
             ];
 
             if (routeUser.includes(to.name)) {

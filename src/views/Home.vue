@@ -39,33 +39,6 @@ export default {
         }
     },
     methods: {
-        requestPermission() {
-            console.log('Requesting permission...');
-
-            Notification.requestPermission().then((permission) => {
-                if (permission === 'granted') {
-                    console.log('Notification permission granted.');
-
-                    onMessage(messaging, (payload) => {
-                        console.log('Message received. ', payload);
-                    });
-
-                    getToken(messaging, {
-                        vapidKey: import.meta.env.VITE_VAPID_KEY,
-                    }).then((currentToken) => {
-                        if (currentToken) {
-                            this.tokenNotification = currentToken;
-                        } else {
-                            console.log('No registration token available. Request permission to generate one.');
-                        }
-                    }).catch((err) => {
-                        console.log('An error occurred while retrieving token. ', err);
-                    });
-                } else {
-                    console.log('Unable to get permission to notify.');
-                }
-            });
-        },
         handleLogin() {
             signInWithPopup(auth, provider).then(async (result) => {
                 // The signed-in user info.
@@ -81,7 +54,6 @@ export default {
                     email: this.email,
                     photo: this.photoURL,
                     role: 'user',
-                    token_notification: this.tokenNotification,
                 }
 
                 // check data collection users
@@ -137,7 +109,6 @@ export default {
         },
     },
     mounted() {
-        this.requestPermission();
     }
 }
 </script>

@@ -136,14 +136,39 @@ export default {
                     return;
                 }
 
-                const data = {
-                    id: this.id,
+                const qryGroupMember = query(collection(db, "Groups/" + this.id + "/Members"), where("uid", "!=", this.uid));
+                const resMembers = await getDocs(qryGroupMember);
+                resMembers.docs.map((docMembers) => {
+                    // untuk update seen
+                    if (docMembers.data().seen === true) {
+                        const docRef = doc(db, "Groups/" + this.id + "/Members", docMembers.id);
+                        updateDoc(docRef, {
+                            seen: false
+                        }).then(() => {
+                            console.log("Document successfully updated!");
+                        }).catch((error) => {
+                            console.error("Error updating document: ", error);
+                        });
+                    }
+                });
+
+                const tableMessage = collection(db, "Groups/" + this.id + "/Messages");
+
+                const addData = {
                     uid: this.uid,
                     message: this.$refs.message.value,
+                    created_at: serverTimestamp()
                 }
 
-                http.post('/send/group', data).then((response) => {
-                    console.log(response.data);
+                updateDoc(doc(db, "Groups", data.id), {
+                    latest_message: this.$refs.message.value,
+                    latest_message_time: serverTimestamp()
+                });
+
+                addDoc(tableMessage, addData).then((docRef) => {
+                    console.log('Create data messages berhasil ' + docRef.id);
+                }).catch((error) => {
+                    console.log(error);
                 });
 
                 this.$refs.bottom?.scrollIntoView({ behavior: 'smooth' });

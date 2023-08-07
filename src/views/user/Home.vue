@@ -27,13 +27,6 @@ import Bots from '../../components/user/Bots.vue';
                 Group
             </a>
         </li>
-        <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-            <a class="text-xs font-bold px-5 py-3 shadow-lg rounded block hover:cursor-pointer"
-                v-on:click="toggleTabs(3)"
-                v-bind:class="{ 'text-black bg-white': open_tab !== 3, 'bg-gray-100': open_tab === 3 }">
-                Bot
-            </a>
-        </li>
     </ul>
     <!-- begin:: chat -->
     <div v-bind:class="{ 'hidden': open_tab !== 1, 'block flex flex-col flex-grow': open_tab === 1 }">
@@ -45,11 +38,6 @@ import Bots from '../../components/user/Bots.vue';
         <Groups :uid="uid" />
     </div>
     <!-- end:: group -->
-    <!-- begin:: bot -->
-    <div v-bind:class="{ 'hidden': open_tab !== 3, 'block flex flex-col flex-grow': open_tab === 3 }">
-        <Bots :uid="uid" />
-    </div>
-    <!-- end:: bot -->
     <!-- end:: chat template -->
 </template>
 
